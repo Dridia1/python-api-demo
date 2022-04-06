@@ -1,0 +1,31 @@
+# Version 1.1
+
+
+before_script:
+  - echo "Building VerneMQ Open-Source project"
+
+.docker_template: &docker_definition
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+  services:
+    - docker:20.10.1-dind
+  image:
+    name: docker:20.10.1
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+  after_script:
+    - docker logout registry.gitlab.com
+
+stages:
+  - build # Build docker image and push to container registry
+
+build:
+  <<: *docker_definition
+  stage: build
+  script:
+    - docker build -t registry.gitlab.com/dridia1/python-api-demo:$CI_COMMIT_SHORT_SHA .
+    - docker push registry.gitlab.com/dridia1/python-api-demo:$CI_COMMIT_SHORT_SHA
+  only:
+    - master
