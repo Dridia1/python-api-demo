@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: python-api-demo
-        image: mgrimberg/python:1.0.5
+        image: registry.gitlab.com/dridia1/python-api-demo:467320e4
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
