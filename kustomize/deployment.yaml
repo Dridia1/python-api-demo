@@ -23,6 +23,8 @@ spec:
       labels:
         app: python-api-demo
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: python-api-demo
         image: registry.gitlab.com/dridia1/python-api-demo:1.0.1
